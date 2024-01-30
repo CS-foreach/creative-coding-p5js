@@ -61,7 +61,7 @@ Contributors:
 | [YouTube/CodingTrain](https://thecodingtrain.com/tracks/code-programming-with-p5-js) | Professor that also teaches creative coding using processing |
 | [MIT/CodeAsACreativeMedium](https://github.com/CodeAsCreativeMedium/exercises) | Book on how to teach creative coding |
 | [GitHub/Golanlevin](https://github.com/golanlevin/lectures/) | The author of Code as a Creative Medium has publicy availble lectures |
-| [GitHub/NatureOfCode](https://github.com/nature-of-code/noc-book-2023) | The author of coding train has a book |
+| [GitHub/NatureOfCode](https://github.com/nature-of-code/noc-book-2023) | The author of coding train has a book on advanced processing and nature coding. |
 
 ## Physical Resources
 
