@@ -58,6 +58,10 @@ Contributors:
 | [Slides/Workshop_Presentation]() | Presentation for the workshop |
 | [GitHub/Lesson_Plan](./workshop.md) | Lesson Plan / Agenda |
 | [Processing/p5](https://editor.p5js.org/) | Online Editor |
+| [YouTube/CodingTrain](https://thecodingtrain.com/tracks/code-programming-with-p5-js) | Professor that also teaches creative coding using processing |
+| [MIT/CodeAsACreativeMedium](https://github.com/CodeAsCreativeMedium/exercises) | Book on how to teach creative coding |
+| [GitHub/Golanlevin](https://github.com/golanlevin/lectures/) | The author of Code as a Creative Medium has publicy availble lectures |
+| [GitHub/NatureOfCode](https://github.com/nature-of-code/noc-book-2023) | The author of coding train has a book |
 
 ## Physical Resources
 
