@@ -33,6 +33,7 @@ We'll be employing the Use-Modify-Create framework.
 2. Set ground rules for using the computers (only use p5 pls)
 3. Introduce P5.js and what it does and is capable of
 4. Show how to make an account, share, run code
+    1. Have students look through examples to find one that they like and share it to the padlet
 5. Live Coding Exercise 
     1. Change canvas size
     2. Spawn a square
