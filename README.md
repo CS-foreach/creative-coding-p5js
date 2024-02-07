@@ -29,3 +29,4 @@ The [wiki](https://github.com/CS-foreach/Creative-Coding-P5/wiki) will contain m
 | [MIT/CodeAsACreativeMedium](https://github.com/CodeAsCreativeMedium/exercises) | Book on how to teach creative coding |
 | [GitHub/Golanlevin](https://github.com/golanlevin/lectures/) | The author of Code as a Creative Medium has publicy availble lectures |
 | [GitHub/NatureOfCode](https://github.com/nature-of-code/noc-book-2023) | The author of coding train has a book on advanced processing and nature coding. |
+| [Classroom/CreativeCoding](https://sites.google.com/smcoe.org/swpcs/home) | P5 lesson plan for middle school students. Emphasis on static picture creation. |
