@@ -41,8 +41,6 @@ We'll be employing the Use-Modify-Create framework.
 4. Show how to make an account, share, run code
     1. Have students look through examples to find one that they like and share it to the padlet
 5. Live Coding Exercise 
-    1. Change canvas size
-    2. Spawn a square
-    3. Review coordinate system
-    4. Spawn more than one square
-    6. Spawn with rotation (make lotus)
+    1. Showcase how to tune paramters
+    2. Parameter tuning in particles
+    3. Task is to make their own thing?
