@@ -9,36 +9,59 @@ Sessions: 11 days, one hour each
 - How will they share with each other?
 
 # Week 1 - Intro to Processing
-## Tasks
-- Get everyone logged into https://editor.p5js.org/
-- Fullscreen example when people get in
 
 ## Learning Goals
 - Get familiar with the environment
 - Have a mind blower
 
-## Agenda
-1. Pull up a simple example and live code messing around
-2. Let the students mess around with it themselves
-
-# Week 2 - ?
 ## Tasks
-- Get familiar with the environment
-- 
+- [ ] Get everyone logged into https://editor.p5js.org/
+
+# Week 2 - Simulation Dive
 
 ## Learning Goals
+- Students get to work with a more complicated example, tuning parameters
+- Students learn the importance of variables
 
-# Week 3 - ?
+## Tasks
+- [ ] Students tune variable parameters
+- [ ] Students learn how to change RGB values
 
-# Week 4 - ?
+# Week 3 - Variables Revisited
+## Learning Goals
+- Basic shapes and colors
+- Introducing variables
+- Introducing functions to group code
 
-# Week 5 - ?
+## Tasks
+- [ ] Students create a new emoji (doesn't have to be a face)
+- [ ] Students create reusable components
 
-# Week 6 - ?
+# Week 4 - Animation and Variables
+## Learning Goals
+- Learn how to apply math to make things move
+- Learn how to apply conditionals to change directions
+- Introducing functions to group code
 
-# Week 7 - ?
+## Tasks
+- [ ] Students animate their emoji moving around the screen
+- [ ] Students learn how to animate specific parts of the emoji
+- [ ] Students learn how to create relative animation movement
 
-# Week 8 - ?
+# Week 5 - Control Flow
+## Learning Goals
+- Introduce Loops to spawn more instances
+- Differentiate between loops and `draw()`
+
+# Week 6 - Arrays
+## Learning Goals
+- Introduce arrays to revisit objects
+
+# Week 7 - Revisiting Particles
+## Learning Goals
+- Modify particle sim into a rain simulation?
+
+# Week 8 - 
 
 # Week 9 - ?
 
