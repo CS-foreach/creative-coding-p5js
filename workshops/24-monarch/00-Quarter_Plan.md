@@ -27,14 +27,23 @@ Sessions: 11 days, one hour each
 - [ ] Students tune variable parameters
 - [ ] Students learn how to change RGB values
 
-# Week 3 - Variables Revisited
+# Week 3 - Shapes
+
+Students make an emoji.
+
 ## Learning Goals
 - Basic shapes and colors
-- Introducing variables
-- Introducing functions to group code
+- Coordinate system
 
 ## Tasks
-- [ ] Students create a new emoji (doesn't have to be a face)
+- [ ] Students create a new emoji
+
+# Week 4 - Variables
+
+## Learning Goals
+- Introducing variables
+
+## Tasks
 - [ ] Students create reusable components
 
 # Week 4 - Animation and Variables
