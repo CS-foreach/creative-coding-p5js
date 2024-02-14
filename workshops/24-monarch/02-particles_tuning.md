@@ -22,9 +22,11 @@ Things to tweak
 
 Class Links
 
-- [Padlet]()
+- [Padlet](https://padlet.com/rlay4/24-monarch-creative-coding-week-2-688tu3ts6x9gm3n7)
 
 P5 Reference Links
+
+- [Particles](https://editor.p5js.org/nlchung/sketches/GOIwrMlgO)
 
 ## Setup
 
@@ -43,4 +45,3 @@ We'll be employing the Use-Modify-Create framework.
 5. Live Coding Exercise 
     1. Showcase how to tune paramters
     2. Parameter tuning in particles
-    3. Task is to make their own thing?
