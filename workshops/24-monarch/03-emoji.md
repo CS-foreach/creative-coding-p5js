@@ -13,3 +13,10 @@
 ## Notes
 
 - Using the Parts, Purposes, Complexities Routine to breakdown how to explore the function
+
+## After action report
+- Attendance: ~11
+- Many difficulties with `arc`
+  - large number of arguments
+  - tricky function in general (start/stop angle, radians)
+- "Guess and check" approach to positioning
