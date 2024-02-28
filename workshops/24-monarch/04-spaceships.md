@@ -7,7 +7,7 @@
 
 ## Resources
 - [Padlet](https://padlet.com/rlay4/24-monarch-creative-coding-archive-r22jsj97ee6tgmmc)
-- [Sketch Template](https://editor.p5js.org/totally-not-frito-lays/sketches/24JHmA7cy)
+- [Sketch Template](https://editor.p5js.org/totally-not-frito-lays/sketches/1lxcelOG5)
 
 ## Notes
 
