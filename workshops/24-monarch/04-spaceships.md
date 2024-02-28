@@ -1,6 +1,6 @@
 # Week 4 - Spaceships
 ## Learning Goals
-- Basic shapes and colors
+- Variables used for relative and absolute positioning
 
 ## Tasks
 - [ ] Students create a spaceship and clone it
