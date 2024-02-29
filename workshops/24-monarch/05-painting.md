@@ -35,4 +35,10 @@ Template features
 - [LERP](https://editor.p5js.org/totally-not-frito-lays/sketches/duqcTKQSc)
 
 ## After action report
-- Attendance: 
+- Attendance: ~13-14 students
+- About half the students just used the starter template to make art and only changed the emoji that they used
+  - The other half experimented with changes to the template
+    - Most of this half changed the background color
+    - One person changed the shape from a circle to an arc
+- Ran into some weird behavior when having them save, failed to save
+  - We should have them duplicate the template before interacting with it at all
