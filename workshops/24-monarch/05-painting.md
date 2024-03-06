@@ -42,3 +42,7 @@ Template features
     - One person changed the shape from a circle to an arc
 - Ran into some weird behavior when having them save, failed to save
   - We should have them duplicate the template before interacting with it at all
+- Students overall seemed to enjoy the creative freedom that they had and the agency they had. 
+- Some students didn't seem to care too much for the drawing part.
+- Frustrations were due in large part to the canvas resetting each time they made changes to the code (should warn them ahead of time)
+- Most students still aren't saving the template to their account.
