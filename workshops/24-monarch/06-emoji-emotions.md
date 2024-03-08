@@ -32,5 +32,10 @@ Template features
 ## After action report
 - Attendance: ~13-14 students
 - In hindsight, it would be better to demonstrate the student agency rather than to explain how the starter code works
-- We should probably review the best way to duplicate and save their own copy of the code at the beginning
-- It would be better give students a clear understanding of what they should design their project towards
+- We should probably review the best way to duplicate and save their own copy of the code at the beginning. Can either:
+     1) Duplicate the code first, then save code copy. Then they can make edits, save the image, then the code. Upload the image and link to the padlet afterwards. 
+     2) Edit code directly once they receive the link, but instruct them to save the image first before saving the code. Then, upload the image and link to the padlet. 
+- It would be better to give students a clear understanding of what they should design their project towards
+     1) That way, they can learn to use the new tools we are teaching them rather than having it too open-ended
+- Some students got a good grasp of using `mouseX` and `mouseY`, one was able to offset it by adding/subtracting values from it
+- Be sure to keep everyone's attention next time (a number of them were on phones)
