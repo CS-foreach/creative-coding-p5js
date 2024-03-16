@@ -26,5 +26,10 @@ Sketch links: [fullscreen](https://editor.p5js.org/phentos/full/NNOOBqypR) , [co
     - if it's a function key etc, add `return False` to the end of `function keyPressed` to prevent default behavior
 
 ## After action report
-- Attendance: ??? students
-- *TODO*
+- Attendance: 13-14 students
+- Students struggled a bit with creative direction. After implementing the keyboard inputs, most did not try anything besides what they were comfortable with(changing color and size)
+  - We should add some more objectives for them to do, or more examples of how they can combine it with previous lessons
+  - Maybe we should run them through the computational part of the lesson quickly, and then make it open-ended as to what they can use it with???
+- A few students were more ambitious with what they tried to implement
+  - One student added a 3rd player
+  - One student attempted to do something like Fireboy and Watergirl
