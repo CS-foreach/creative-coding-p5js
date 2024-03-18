@@ -1,4 +1,4 @@
-# 24-Workshop-Creative_Coding-Monarch
+# Creative Coding in P5JS
 
 Learning to code for the sake of coding is boring. Let's try teaching code
 as a means to make cool stuff! In this case, we're using code to make art using P5.js.
@@ -16,6 +16,10 @@ what is important.
 ## How to use this repo
 
 The [wiki](https://github.com/CS-foreach/Creative-Coding-P5/wiki) will contain most of the "how to use" information as well as logs for decisions and workshop plans. This repo is currently under development so the "how to use" is subject to change.
+
+The [workshops]() folder will contain all the workshop lesson plans. 
+- A new folder for each new series of workshops that are taught
+- A new file is made for each workshop that used P5
 
 ## Online Resources
 
