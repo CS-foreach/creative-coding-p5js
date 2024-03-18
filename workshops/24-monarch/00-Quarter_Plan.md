@@ -57,23 +57,36 @@ Students make an emoji.
 - [ ] Students learn how to animate specific parts of the emoji
 - [ ] Students learn how to create relative animation movement
 
-# Week 5 - Control Flow
+# Week 5 - Painting
 ## Learning Goals
-- Introduce Loops to spawn more instances
-- Differentiate between loops and `draw()`
+- introduce `draw()` loop
+- introduce mouse events
 
-# Week 6 - Arrays
+# Week 6 - emoji emotions
 ## Learning Goals
-- Introduce arrays to revisit objects
+- introduce `draw() {background()}` loop
+- use it to give emoji emotions
 
-# Week 7 - Revisiting Particles
+# Week 7 - keyboard events
 ## Learning Goals
-- Modify particle sim into a rain simulation?
+- introduce keyboard events
+- make a 4-direction player controller
 
-# Week 8 - 
+# Week 8 - creative design
+## Learning Goals
+design for a client
+- make the kids make a project for somebody else (wants: specific attributes, gathering them from other templates)
 
-# Week 9 - ?
+# Week 9 - final project
+## Learning Goals
+work on final project
 
-# Week 10 - ?
+# Week 10 - final project
+## Learning Goals
+work on final project
 
-# Week 11 - ?
+# Week 11 - Presentation Day
+co-presentation
+- make the final day a presentation
+- as a teacher, go up and help present the project with the student
+- give them (animal award on paper) for `this many loops, etc.`
