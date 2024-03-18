@@ -2,8 +2,10 @@
 
 - first half exploring and learning how to use a new feature through an example. 
 - second half can be personal time to work on a project.
+- [padlet archive](https://padlet.com/rlay4/24-monarch-creative-coding-archive-r22jsj97ee6tgmmc)
 
-Sessions: 11 days, one hour each
+Sessions: 11 days, one hour each from 2/1/2024 - 4/11/2024
+
 # Week 0 - Prep!
 ## Tasks
 - How will they share with each other?
