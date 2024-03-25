@@ -110,30 +110,39 @@ function elapsedFrameCounter() {
 /**
  * C l a s s e s
  * 	PathTracker, an interface for frame-by-frame coordinate sequences
- * 		.next -> if next frame exists, return that data and increment current, else null
- * 		.new -> change activePath to an empty slot and return the id
- * 		.delete -> delete the given path for all frames, or a range if given
+ * 		.push 	 add given object to activePath at currentFrame
+ * 		.new  	 change activePath to an empty slot and return the id
+ * 		.jump 	 change currentFrame to given frame
+ * 		.edit 	 change activePath to the given id
+ * 		.next 	 if next frame exists, return that data and increment current, else null
+ * 		.delete  delete the given path for all frames, or a range if given
  */
 class PathTracker {
 	constructor() {
-		frames = [];
+		frames = [[]];
 		currentFrame = 0;
 		activePath = 0;
 	}
 
-	next(pathList) {
+	push(data) { frames[currentFrame++][activePath] = data; }
+	new		() { return activePath++; }
+	jump  (to) { currentFrame = to; }
+	edit(path) { activePath = path; }
 
-	}
+	next(paths) {
+		let frame = [];
 
-	new() {
+		if (paths == null) { frame = frames[currentFrame]; } 
+		else { for (path of paths) { frame.push(frames[currentFrame][path]); } }
 		
+		currentFrame++;
+		return frame;
 	}
 
-	delete({threadID=null, from=0, to=null} = {}) {
-		if (threadID==null) { threadID = activePath; }
+	delete({path=null, from=0, to=null} = {}) {
+		if (path==null) { path = activePath; }
+		
 		let stop  = (to) ? to : frames.length - 1;
-		for (i = from; i <= stop; i++) {
-			delete frames[i][threadID];
-		}
+		for (i = from; i <= stop; i++) { delete frames[i][path]; }
 	}
 }
