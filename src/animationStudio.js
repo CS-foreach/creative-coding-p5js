@@ -1,20 +1,9 @@
 let x, y;
-
-// a list like [{x:someX, y:someY}], added to in touchMoved
-let path; 
-
-/**
- * getNextXY is asked for the `nextPosition` to draw
- *  can be:
- *      `generator` - when a path is to be played, set in `keyPressed`
- *      `getXY`     - (initial value set in `applyDefaults`) the current position
- *      `null`      - when a path has completed, set in `generator` closure
- */
-let getNextXY; 
-let nextPosition;
+let paths;
+let playing;
 
 /**
- * holds a closure created by `elapsedFrameCounter` that returns if n frames 
+ * holds a closure created by `elapsedFrameCounter` that returns if n this.frames 
  *  have elapsed since the last call
  */
 let framesHaveElapsed;
@@ -25,26 +14,34 @@ let framesHaveElapsed;
  */
 function setup() {
 	createCanvas(window.innerWidth, window.innerHeight);
+	framesHaveElapsed = elapsedFrameCounter();
+
 	reset();
 	this.focus();
-	framesHaveElapsed = elapsedFrameCounter();
 }
 
 function reset() {
+	playing = false;
 	clear();
-    path = [];
+    paths = new PathTracker();
     nullXY();
-	getNextXY = getXY;
+	
 	fill("red");
 }
 
 function draw() {
-	nextPosition = getNextXY();
-	if (nextPosition == null) { getNextXY = getXY; }
-    else { x = nextPosition.x; y = nextPosition.y; }
+	if (playing) { 
+		let points = paths.next();
+		if (points == null) { togglePlay(); }
+		else { for (p of points) { placeActor(p); } }
+	}
+}
 
-    if (x == null || y == null) { return; }
-    else { circle(x, y, 50); }
+function placeActor(where) { circle(where.x, where.y, 30); }
+
+function togglePlay() {
+	if (playing) { playing = false; }
+	else { clear(); paths.jump(0); playing = true; }
 }
 
 /**
@@ -56,15 +53,17 @@ function clickHandler() {
     x = mouseX;
 	y = mouseY;
 
-    if (framesHaveElapsed(1)) { path.push({x, y}); }
+    if (framesHaveElapsed(1)) { placeActor({x, y}); paths.push({x, y}); }
 }
 
 function keyPressed() {
     // ctrl+c
 	if (key == "c" && keyIsDown(CONTROL)) { exportPath();} else
-    if (key == "c") { clear(); nullXY(); }
+    if (key == "c") { clear(); }
 	if (key == "r") { reset(); }
-	if (key == " ") { clear(); getNextXY = generator(path); }
+	if (key == " ") { togglePlay(); }
+	if (key == "n") { paths.new(); }
+	if (key == "q") { paths.jump(0); }
 
     return false;
 }
@@ -80,12 +79,6 @@ function nullXY() {
     x = null;
     y = null;
 }
-
-function exportPath() {
-    console.log("exportPath");
-	navigator.clipboard.writeText(JSON.stringify(path));
-}
-
 
 /**
  * C l o s u r e s 
@@ -116,33 +109,54 @@ function elapsedFrameCounter() {
  * 		.edit 	 change activePath to the given id
  * 		.next 	 if next frame exists, return that data and increment current, else null
  * 		.delete  delete the given path for all frames, or a range if given
+ * 		.load	 pull frames from localStorage
+ * 		.save	 send frames to localStorage
+ * 		.import	 set frames to the given data
+ * 		.export	 send frames to clipbard if truthy arg, otherwise return them
  */
 class PathTracker {
 	constructor() {
-		frames = [[]];
-		currentFrame = 0;
-		activePath = 0;
+		this.frames = [];
+		this.currentFrame = 0;
+		this.activePath = 0;
 	}
 
-	push(data) { frames[currentFrame++][activePath] = data; }
-	new		() { return activePath++; }
-	jump  (to) { currentFrame = to; }
-	edit(path) { activePath = path; }
+	push(data) { 
+		if (!this.frames[this.currentFrame]) { this.frames[this.currentFrame] = []; }
+		this.frames[this.currentFrame++][this.activePath] = data; 
+	}
+
+	new		() { return this.activePath++; }
+	jump  (to) { this.currentFrame = to; }
+	edit(path) { this.activePath = path; }
 
 	next(paths) {
+		if (this.currentFrame >= this.frames.length) { return null; }
+
 		let frame = [];
 
-		if (paths == null) { frame = frames[currentFrame]; } 
-		else { for (path of paths) { frame.push(frames[currentFrame][path]); } }
+		if (paths == null) { frame = this.frames[this.currentFrame]; } 
+		else { for (path of paths) { frame.push(this.frames[this.currentFrame][path]); } }
 		
-		currentFrame++;
-		return frame;
+		this.currentFrame++;
+		return frame.flat();
 	}
 
 	delete({path=null, from=0, to=null} = {}) {
-		if (path==null) { path = activePath; }
+		if (path==null) { path = this.activePath; }
 		
-		let stop  = (to) ? to : frames.length - 1;
-		for (i = from; i <= stop; i++) { delete frames[i][path]; }
+		let stop  = (to) ? to : this.frames.length - 1;
+		for (i = from; i <= stop; i++) { delete this.frames[i][path]; }
+	}
+
+	load() { this.frames = JSON.parse(localStorage.getItem("PathTracker frames")); }
+	save() { localStorage.setItem("PathTracker frames", this.export(false)); }
+	
+	import(_frames) { this.frames = _frames; }
+	export(toClipboard) {
+		let output = JSON.stringify(this.frames);
+
+		if (toClipboard) { navigator.clipboard.writeText(output); }
+		else 			 { return output; }
 	}
 }
