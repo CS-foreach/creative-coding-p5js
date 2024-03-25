@@ -1,71 +1,103 @@
-let x;
-let y;
-let path = [];
-let getNextXY;
+let x, y;
+
+// a list like [{x:someX, y:someY}], added to in touchMoved
+let path; 
+
+/**
+ * getNextXY is asked for the `nextPosition` to draw
+ *  can be:
+ *      `generator` - when a path is to be played, set in `keyPressed`
+ *      `getXY`     - (initial value set in `applyDefaults`) the current position
+ *      `null`      - when a path has completed, set in `generator` closure
+ */
+let getNextXY; 
 let nextPosition;
 
+/**
+ * holds a closure created by `elapsedFrameCounter` that returns if n frames 
+ *  have elapsed since the last call
+ */
+let framesHaveElapsed;
+
+
+/**
+ * S k e t c h
+ */
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight);
-  applyDefaults();
-  this.focus();
+	createCanvas(window.innerWidth, window.innerHeight);
+	reset();
+	this.focus();
+	framesHaveElapsed = elapsedFrameCounter();
 }
 
-function applyDefaults() {
-  clear();
-  x = window.innerWidth / 2;
-  y = window.innerHeight / 2;
-  getNextXY = getXY;
-  fill("red");
+function reset() {
+	clear();
+    path = [];
+    x = null;
+    y = null;
+	getNextXY = getXY;
+	fill("red");
 }
 
 function draw() {
-  nextPosition = getNextXY();
-  if (nextPosition == null) { getNextXY = getXY; return; } 
-  if (nextPosition == false) { return; } 
+	nextPosition = getNextXY();
+	if (nextPosition == null) { getNextXY = getXY; }
+    else { x = nextPosition.x; y = nextPosition.y; }
 
-  x = nextPosition.x;
-  y = nextPosition.y;
-
-  circle(x, y, 50);
+    if (x == null || y == null) { return; }
+    else { circle(x, y, 50); }
 }
 
-function touchMoved() {
-  x = mouseX;
-  y = mouseY;
-  path.push({x, y});
-  
-  return false;
+/**
+ * E v e n t s
+ */
+function touchStarted() { clickHandler(); return false; }
+function touchMoved()   { clickHandler(); return false; }
+function clickHandler() {
+    x = mouseX;
+	y = mouseY;
+
+    if (framesHaveElapsed(1)) { path.push({x, y}); }
 }
 
 function keyPressed() {
-  if (key == "c" && keyIsDown("Control")) { exportPath(); }
+    // ctrl+c
+	if (key == "c" && keyIsDown(CONTROL)) { exportPath();}
+	if (key == "r") { reset(); }
+	if (key == " ") { clear(); getNextXY = generator(path); }
 
-  if (key == "r") { applyDefaults(); }
-  
-  if (key == " ") { clear(); getNextXY = generator(path); }
+    return false;
 }
 
-function generator(array) {
-  let currentIndex = 0;
-  return function() {
-    return (currentIndex < array.length) ? array[currentIndex++] : null;
-  };
-}
-
+/**
+ * Misc helpers
+ */
 function getXY() { 
-  return {x:x, y:y}; 
-}
-  
-function elapsedFrames() {
-  let current = frameCount;
-  let previous = current;
-  return function (n) {
-    previous = current;
-    current = frameCount;
-    return (current - previous) >= n;
-  }
+	return {x:x, y:y}; 
 }  
-  
+
 function exportPath() {
-  navigator.clipboard.writeText(JSON.stringify(path));
+    console.log("exportPath");
+	navigator.clipboard.writeText(JSON.stringify(path));
+}
+
+
+/**
+ * C l o s u r e s 
+ */
+function generator(array) {
+	let currentIndex = 0;
+	return function() {
+		return (currentIndex < array.length) ? array[currentIndex++] : null;
+	};
+}
+
+function elapsedFrameCounter() {
+	let current = frameCount;
+	let previous = current;
+	return function (n) {
+		previous = current;
+		current = frameCount;
+		return (current - previous) >= n;
+	}
 }
