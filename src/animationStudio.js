@@ -1,6 +1,19 @@
 let x, y;
 let paths;
-let playing;
+let playing = false;
+let helpActive = false;
+
+const HELP_MENU = [
+	["h", "show/hide this menu"],
+	["", ""],
+	["click", "to draw"],
+	["spacebar", "start/stop replay of your drawing"],
+	["c", "clear the canvas"],
+	["r", "reset everything"],
+	["q", "jump to start"],
+	["n", "record new path"],
+	["Control + c", "copy paths to clipboard"]
+]
 
 /**
  * holds a closure created by `elapsedFrameCounter` that returns if n this.frames 
@@ -18,6 +31,7 @@ function setup() {
 
 	reset();
 	this.focus();
+	displayHelp();
 }
 
 function reset() {
@@ -26,7 +40,9 @@ function reset() {
     paths = new PathTracker();
     nullXY();
 	
-	fill("red");
+	fill("black");
+
+	textSize(30);
 }
 
 function draw() {
@@ -44,12 +60,42 @@ function togglePlay() {
 	else { clear(); paths.jump(0); playing = true; }
 }
 
+function displayHelp() {
+	if (helpActive) {
+		pop();
+		updatePixels();
+		helpActive = false;
+		return;
+	}
+	
+	helpActive = true;
+
+	push();
+	loadPixels();
+
+	fill("white");
+	background("rgba(0,0,0,0.7)");
+	
+	let wPos = 200; let hPos = 100;
+	let leftPrint = "";
+	let rightPrint = "";
+
+	for (t of HELP_MENU) {
+		leftPrint += t[0] + "\n";
+		rightPrint += t[1] + "\n";
+	}
+
+	textAlign(RIGHT); text(leftPrint, wPos, hPos);
+	textAlign(LEFT);  text(rightPrint, wPos + 50, hPos);
+}
+
 /**
  * E v e n t s
  */
 function touchStarted() { clickHandler(); return false; }
 function touchMoved()   { clickHandler(); return false; }
 function clickHandler() {
+	if (helpActive) { return; }
     x = mouseX;
 	y = mouseY;
 
@@ -64,6 +110,7 @@ function keyPressed() {
 	if (key == " ") { togglePlay(); }
 	if (key == "n") { paths.new(); }
 	if (key == "q") { paths.jump(0); }
+	if (key == "h") { displayHelp(); }
 
     return false;
 }
