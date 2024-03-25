@@ -106,3 +106,34 @@ function elapsedFrameCounter() {
 		return (current - previous) >= n;
 	}
 }
+
+/**
+ * C l a s s e s
+ * 	PathTracker, an interface for frame-by-frame coordinate sequences
+ * 		.next -> if next frame exists, return that data and increment current, else null
+ * 		.new -> change activePath to an empty slot and return the id
+ * 		.delete -> delete the given path for all frames, or a range if given
+ */
+class PathTracker {
+	constructor() {
+		frames = [];
+		currentFrame = 0;
+		activePath = 0;
+	}
+
+	next(pathList) {
+
+	}
+
+	new() {
+		
+	}
+
+	delete({threadID=null, from=0, to=null} = {}) {
+		if (threadID==null) { threadID = activePath; }
+		let stop  = (to) ? to : frames.length - 1;
+		for (i = from; i <= stop; i++) {
+			delete frames[i][threadID];
+		}
+	}
+}
