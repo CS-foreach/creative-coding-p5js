@@ -33,8 +33,7 @@ function setup() {
 function reset() {
 	clear();
     path = [];
-    x = null;
-    y = null;
+    nullXY();
 	getNextXY = getXY;
 	fill("red");
 }
@@ -62,7 +61,8 @@ function clickHandler() {
 
 function keyPressed() {
     // ctrl+c
-	if (key == "c" && keyIsDown(CONTROL)) { exportPath();}
+	if (key == "c" && keyIsDown(CONTROL)) { exportPath();} else
+    if (key == "c") { clear(); nullXY(); }
 	if (key == "r") { reset(); }
 	if (key == " ") { clear(); getNextXY = generator(path); }
 
@@ -74,7 +74,12 @@ function keyPressed() {
  */
 function getXY() { 
 	return {x:x, y:y}; 
-}  
+}
+
+function nullXY() {
+    x = null;
+    y = null;
+}
 
 function exportPath() {
     console.log("exportPath");
