@@ -130,13 +130,6 @@ function nullXY() {
 /**
  * C l o s u r e s 
  */
-function generator(array) {
-	let currentIndex = 0;
-	return function() {
-		return (currentIndex < array.length) ? array[currentIndex++] : null;
-	};
-}
-
 function elapsedFrameCounter() {
 	let current = frameCount;
 	let previous = current;
