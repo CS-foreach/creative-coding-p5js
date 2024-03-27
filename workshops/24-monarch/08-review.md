@@ -8,7 +8,7 @@
 ## After action report
 
 - Attendance: ~11 kids
-- Jon suggested reusing the spaceship/emoji painting template, Newton created a new template for the kids to work on
+- Jon suggested reusing the spaceship/emoji painting template, Newton created a new [template](https://editor.p5js.org/nlchung/sketches/t9qy-kK_l) for the kids to work on
 - Everybody was able to (mostly) complete making something weird
   - Emoji template, creating shapes (circles, triangles, rectangles), movement
 - About 2-3 students chose to explore public templates
