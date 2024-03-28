@@ -54,6 +54,7 @@ function drawLevel() {
   background(bg_color);
   rect(0,0,2,height);
   rect(0,height-40,100,20);
+  drawExit();
 }
 
 function drawPlayer() {
@@ -69,9 +70,22 @@ function checkBoundaries() {
   playerY = constrain(playerY, 0, height - playerHeight);
 }
 
+//Where the level exit icon is
+let levelExit_X;
+let levelExit_Y;
+let levelExit_Size;
 function newGame() {
   playerY = height - playerHeight;
   playerX = width / 2;
+  levelExit_X = 150;
+  levelExit_Y = 250;
+  levelExit_Size = 50;
+}
+
+function drawExit(x,y){
+  
+  textSize(50);
+  text("😀", levelExit_X, levelExit_Y, LEFT, TOP);
 }
 
 function keyPressed() {
