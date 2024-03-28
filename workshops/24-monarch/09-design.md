@@ -14,3 +14,12 @@
 - 3 minutes: Demo the demo
 - 30 minutes: Create!
 - 10 minutes: Share!
+
+## After Action Report
+- Students struggled to find/modify the level creation code
+  Causes:
+  - chonky template
+  - incorrect assumptions made about helper functions
+  Fix:
+  - Isolate level design code
+  - More deliberate level design step explanation
