@@ -53,6 +53,7 @@ bg_color_array = [0,0,0,255];
 function drawLevel() {
   background(bg_color);
   rect(0,0,2,height);
+  rect(0,height-70,100,30);
 }
 
 function drawPlayer() {
@@ -89,55 +90,70 @@ function applyFriction() {
 
 function applyPhysics() {
   playerVelocityY += gravity;
-  playerY += playerVelocityY;           //
+  check_collision("Y");
+  playerY += playerVelocityY;
   
+  /*
   if (playerY > height - 20) {
     playerY = height - 20;
     playerVelocityY = 0;
   }
+  */
   
   playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
-  check_collision();
+  check_collision("X");
   playerX += playerVelocityX;
 }
 
-function check_collision(){
-  if(playerVelocityX < 0){                                     //When velocity is less than 0, the player is moving left.
-    if(!get(player("left"), player("center-y")).every((val,index) => val === bg_color_array[index])){          //Check if there is an object on the player's left
-      if(-playerVelocityX < 2){
-        playerVelocityX = 0;
+function check_collision(direction){
+  if(direction == "X"){
+    if(playerVelocityX < 0){                                     //When velocity is less than 0, the player is moving left.
+      if(isTouching("left")){          //Check if there is an object on the player's left
+        if(-playerVelocityX < 2){
+          playerVelocityX = 0;
+        }
+        playerVelocityX = -playerVelocityX * 0.5;
       }
-      playerVelocityX = -playerVelocityX * 0.5;
+    }
+    else if(playerVelocityX > 0){                                //When velocity is more than 0, the player is moving right.
+      if(isTouching("right")){         //Check if there is an object on the player's right
+        if(playerVelocityX < 2){
+          playerVelocityX = 0;
+        }
+        playerVelocityX = -playerVelocityX * 0.5;
+      }                           
     }
   }
-  else if(playerVelocityX > 0){                                //When velocity is more than 0, the player is moving right.
-    if(!get(player("right"), player("center-y")).every((val,index) => val === bg_color_array[index])){         //Check if there is an object on the player's right
-      if(playerVelocityX < 2){
-        playerVelocityX = 0;
+  else{
+    if(playerVelocityY < 0){                                     //When velocity is less than 0, the player is moving left.
+      if(isTouching("top")){          //Check if there is an object touching the player's head
+        playerVelocityY = -playerVelocityY;
       }
-      playerVelocityX = -playerVelocityX * 0.5;
-    }                           
+    }
+    if(playerVelocityY > 0){
+      if(isTouching("bottom")){        //Check if there is an object directly under the player
+        playerVelocityY = 0; 
+      }
+    }
   }
 }
 
-function player(direction){
+function isTouching(direction){
   if (direction == "top"){
-    return playerY;
+    return !get(playerX, playerY).every((val,index) => val === bg_color_array[index]) |
+           !get(playerX + playerWidth/2, playerY).every((val,index) => val === bg_color_array[index]) |
+           !get(playerX + playerWidth, playerY).every((val,index) => val === bg_color_array[index]);
   }
   if (direction == "bottom"){
-    return playerY + playerHeight;
+    return !get(playerX, playerY + playerHeight).every((val,index) => val === bg_color_array[index]) |
+           !get(playerX + playerWidth/2, playerY + playerHeight).every((val,index) => val === bg_color_array[index]) | 
+           !get(playerX + playerWidth, playerY + playerHeight).every((val,index) => val === bg_color_array[index]);
   }
   if (direction == "left"){
-    return playerX;
+    return !get(playerX, playerY + playerHeight/2).every((val,index) => val === bg_color_array[index]);
   }
   if (direction == "right"){
-    return playerX + playerWidth;
-  }
-  if (direction == "center-x"){
-    return playerX + playerWidth/2;
-  }
-  if (direction == "center-y"){
-    return playerY + playerHeight/2;
+    return !get(playerX + playerWidth, playerY + playerHeight/2).every((val,index) => val === bg_color_array[index]);;
   }
 }
 
