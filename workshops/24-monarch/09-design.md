@@ -1,7 +1,8 @@
 # Week 9 - Design - **3 WEEKS LEFT!**
 ## Learning Goals
 - Learn about video game level design
-- Design a challenging platforming level
+- Design a platforming level
+- Identify gameplay bugs
 
 ## Resources
 - Template: [`TODO`](https://editor.p5js.org/)
