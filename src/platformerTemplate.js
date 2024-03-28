@@ -105,18 +105,3 @@ function move(direction) {
     playerVelocityX += playerAcceleration;
   }
 }
-
-function running(){
-    if (keyIsDown(65)){         //The ASCII keycode for "a" is 65.
-        Player1.x -= Player1.runSpeed;
-    }
-    if (keyIsDown(68)){         //The ASCII keycode for "d" is 68.
-        Player1.x += Player1.runSpeed;
-    }
-    if (keyIsDown(LEFT_ARROW)){
-        Player2.x -= Player2.runSpeed;
-    }
-    if (keyIsDown(RIGHT_ARROW)){
-        Player2.x += Player2.runSpeed;
-    }
-}
