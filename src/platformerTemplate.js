@@ -45,11 +45,7 @@ class Player {
 }
 
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
-
-    // focusing the sketch means keypresses
-    // will work without you needing to "activate"
-    // it by clicking on it
+    createCanvas(400, 300);
     this.focus();
 }
   
