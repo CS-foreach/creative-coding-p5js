@@ -59,6 +59,8 @@ function drawLevel() {
   drawTrickyFloor(50,170,50);
   drawTrickyFloor(137,141,50);
   drawBlock(280,90);
+
+  drawExit(levelExit_X, levelExit_Y, levelExit_Size);
 }
 
 function drawFloor(x, y, w, c) {
@@ -96,20 +98,41 @@ let levelExit_Size;
 function newGame() {
   playerY = height - playerHeight;
   playerX = width / 2;
-  levelExit_X = 150;
-  levelExit_Y = 250;
-  levelExit_Size = 50;
+  levelExit_X = 255;
+  levelExit_Y = 70;
+  levelExit_Size = 75;
 }
 
-function drawExit(x,y){
-  
-  textSize(50);
-  text("😀", levelExit_X, levelExit_Y, LEFT, TOP);
+function drawExit(x,y,size){
+  textSize(size/3);
+  textAlign(CENTER, CENTER);
+  text("😀", x + size/2, y + size/2);
+  if (x <= playerX & playerX <= x+size & y <= playerY & playerY <= y+size){
+    YouWin();
+  }
+}
+
+let player_won = false;
+function YouWin(){
+  player_won = true;
+  textSize(75);
+  fill("yellow");
+  text("YOU WIN!!!", width/2, height/2);
+  textSize(20);
+  fill("white");
+  text("Press space to restart.", width/2, height * 0.75);
+  text("Change what happens when you win!", width/2, height * 0.9);
+  //Stop the player from moving
+  playerVelocityX = 0;
+  playerVelocityY = 0;
 }
 
 function keyPressed() {
   if (key == " ") {
     move("up");
+    if(player_won){
+      newGame();
+    }
   }
 }
 
