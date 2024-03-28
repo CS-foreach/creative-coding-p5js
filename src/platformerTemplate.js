@@ -123,7 +123,6 @@ function YouWin(){
   fill("white");
   text("Press space to restart.", width/2, height * 0.75);
   text("Change what happens when you win!", width/2, height * 0.9);
-  //Stop the player from moving
   playerVelocityX = 0;
   playerVelocityY = 0;
 }
@@ -149,13 +148,6 @@ function applyPhysics() {
   playerVelocityY += gravity;
   check_collision("Y");
   playerY += playerVelocityY;
-  
-  /*
-  if (playerY > height - 20) {
-    playerY = height - 20;
-    playerVelocityY = 0;
-  }
-  */
   
   playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
   check_collision("X");
