@@ -53,14 +53,18 @@ bg_color_array = [0,0,0,255];
 function drawLevel() {
   background(bg_color);
   
+  defaultLevel();
+
+  drawExit(levelExit_X, levelExit_Y, levelExit_Size);
+}
+
+function defaultLevel() {
   drawFloor(50,250,60, "grey");
   drawFloor(150,200,30, "grey");
 
   drawTrickyFloor(50,170,50);
   drawTrickyFloor(137,141,50);
   drawBlock(280,90);
-
-  drawExit(levelExit_X, levelExit_Y, levelExit_Size);
 }
 
 function drawFloor(x, y, w, c) {
