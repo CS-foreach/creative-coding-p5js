@@ -101,6 +101,7 @@ function newGame() {
   levelExit_X = 255;
   levelExit_Y = 70;
   levelExit_Size = 75;
+  player_won = false;
 }
 
 function drawExit(x,y,size){
