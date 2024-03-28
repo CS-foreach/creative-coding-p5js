@@ -1,90 +1,109 @@
-class Player {
-    constructor(){
-        this.r = 50;
-        this.x = this.r;
-        this.y = this.r;
-        this.jumpPower = 5;
-        this.runSpeed = 5;
+// Where the player is now
+let playerX;
+let playerY;
 
-        this.canJump = true;
-        this.y_speed = 0;
-    }
+// How fast a player speeds up left or right
+let playerAcceleration = 0.5;
 
-    check_on_land(){
-        if (get(this.x, this.bottom()+1).every((val,index) => val === bg_color_array[index])){        //If this player is in the air...
-            this.canJump = false;                                                                     //this player cannot jump.
-            return false;
-        }
-        else{
-            this.canJump = true;
-            return true;
-        }
-    }
+// How fast a player can move
+let playerTopSpeed = 10;
 
-    gravity(){
-        if (this.y_speed < 10){
-            this.y_speed += gravity_strength;
-        }
+// How high the player can jump
+let jumpForce = -13;
 
-        //if (this.check_on_land() == false){
-            this.y += min(this.y_speed,window.innerHeight-this.bottom());
-        //}
-    }
+// How fast the player is moving now
+let playerVelocityY = 0;
+let playerVelocityX = 0;
 
-    draw(){
-        circle(this.x, this.y, 2*this.r);
-    }
+// How fast the player falls
+let gravity = 1.2;
 
-    top(){
-        return this.y - this.r;
-    }
-
-    bottom(){
-        return this.y + this.r;
-    }
-}
+// How slippery moving is
+let groundFriction = 0.8;
+let airFriction = 0.99;
 
 function setup() {
-    createCanvas(400, 300);
-    this.focus();
+  createCanvas(400, 300);
+  this.focus();
+  newGame();
 }
-  
-let Player1 = new Player();
-let Player2 = new Player();
-  
-let background_color = 'rgba(0,0,0,255)';
-let bg_color_array = [0,0,0,255];
+
 function draw() {
-    Player1.gravity();
-    Player2.gravity();
-    running();
-
-    background(background_color);
-
-    fill("red");
-    Player1.draw();
-
-    fill("blue");
-    Player2.draw();
-
-    fill("yellow");
-    rect(100, 500, 500, 200);
-
-    textSize(50);
-    fill('white');
-    text(Player1.canJump, 50, 50);
+  checkInputs();
+  drawLevel();
+  drawPlayer();
 }
 
-let gravity_strength = 0.1;
+function checkInputs() {
+  if (keyIsDown(65)) {
+    move("left");
+  } else if (keyIsDown(68)) {
+    move("right");
+  } else {
+    applyFriction();
+  }
+}
+
+function drawLevel() {
+  background(0);
+}
+
+function drawPlayer() {
+  applyPhysics();
+  checkBoundaries();
+
+  fill("red");
+  rect(playerX, playerY, 20, 20);
+}
+
+function checkBoundaries() {
+  playerX = constrain(playerX, 0, width - 20);
+  playerY = constrain(playerY, 0, height - 20);
+}
+
+function newGame() {
+  playerY = height - 15;
+  playerX = width / 2;
+}
 
 function keyPressed() {
-    if (key == "w" & Player1.canJump) {     //Replace canjump with check on land
-        text(Player1.canJump, 50, 50);
-        Player1.y_speed = -Player1.jumpPower;
-    }
-    if (keyCode === UP_ARROW & Player2.canJump) {
-        Player2.y_speed = -Player2.jumpPower;
-    }
+  if (key == " ") {
+    move("up");
+  }
+}
+
+function applyFriction() {
+  if (playerVelocityY) {
+    playerVelocityX *= airFriction;
+  } else {
+    playerVelocityX *= groundFriction;
+  }
+}
+
+function applyPhysics() {
+  playerVelocityY += gravity;
+  playerY += playerVelocityY;
+  
+  if (playerY > height - 20) {
+    playerY = height - 20;
+    playerVelocityY = 0;
+  }
+  
+  playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
+  playerX += playerVelocityX;
+}
+
+function move(direction) {
+  if (direction == "up" && playerVelocityY == 0) {
+    playerVelocityY += jumpForce;
+  }
+
+  if (direction == "left") {
+    playerVelocityX -= playerAcceleration;
+  }
+  if (direction == "right") {
+    playerVelocityX += playerAcceleration;
+  }
 }
 
 function running(){
