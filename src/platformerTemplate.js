@@ -2,6 +2,10 @@
 let playerX;
 let playerY;
 
+// How tall and wide the player is
+let playerHeight = 20;
+let playerWidth = 20;
+
 // How fast a player speeds up left or right
 let playerAcceleration = 0.5;
 
@@ -44,8 +48,11 @@ function checkInputs() {
   }
 }
 
+bg_color = 'rgba(0,0,0,255)';
+bg_color_array = [0,0,0,255];
 function drawLevel() {
-  background(0);
+  background(bg_color);
+  rect(0,0,2,height);
 }
 
 function drawPlayer() {
@@ -53,16 +60,16 @@ function drawPlayer() {
   checkBoundaries();
 
   fill("red");
-  rect(playerX, playerY, 20, 20);
+  rect(playerX, playerY, playerWidth, playerHeight);
 }
 
 function checkBoundaries() {
-  playerX = constrain(playerX, 0, width - 20);
-  playerY = constrain(playerY, 0, height - 20);
+  playerX = constrain(playerX, 0, width - playerWidth);
+  playerY = constrain(playerY, 0, height - playerHeight);
 }
 
 function newGame() {
-  playerY = height - 15;
+  playerY = height - playerHeight;
   playerX = width / 2;
 }
 
@@ -82,7 +89,7 @@ function applyFriction() {
 
 function applyPhysics() {
   playerVelocityY += gravity;
-  playerY += playerVelocityY;
+  playerY += playerVelocityY;           //
   
   if (playerY > height - 20) {
     playerY = height - 20;
@@ -90,7 +97,48 @@ function applyPhysics() {
   }
   
   playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
+  check_collision();
   playerX += playerVelocityX;
+}
+
+function check_collision(){
+  if(playerVelocityX < 0){                                     //When velocity is less than 0, the player is moving left.
+    if(!get(player("left"), player("center-y")).every((val,index) => val === bg_color_array[index])){          //Check if there is an object on the player's left
+      if(-playerVelocityX < 2){
+        playerVelocityX = 0;
+      }
+      playerVelocityX = -playerVelocityX * 0.5;
+    }
+  }
+  else if(playerVelocityX > 0){                                //When velocity is more than 0, the player is moving right.
+    if(!get(player("right"), player("center-y")).every((val,index) => val === bg_color_array[index])){         //Check if there is an object on the player's right
+      if(playerVelocityX < 2){
+        playerVelocityX = 0;
+      }
+      playerVelocityX = -playerVelocityX * 0.5;
+    }                           
+  }
+}
+
+function player(direction){
+  if (direction == "top"){
+    return playerY;
+  }
+  if (direction == "bottom"){
+    return playerY + playerHeight;
+  }
+  if (direction == "left"){
+    return playerX;
+  }
+  if (direction == "right"){
+    return playerX + playerWidth;
+  }
+  if (direction == "center-x"){
+    return playerX + playerWidth/2;
+  }
+  if (direction == "center-y"){
+    return playerY + playerHeight/2;
+  }
 }
 
 function move(direction) {
