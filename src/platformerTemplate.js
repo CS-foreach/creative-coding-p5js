@@ -53,13 +53,27 @@ bg_color_array = [0,0,0,255];
 function drawLevel() {
   background(bg_color);
   
-  drawFloor(50,250,100, "grey");
-  drawFloor(150,200,100, "grey");
+  drawFloor(50,250,60, "grey");
+  drawFloor(150,200,30, "grey");
+
+  drawTrickyFloor(50,170,50);
+  drawTrickyFloor(137,141,50);
+  drawBlock(280,90);
 }
 
 function drawFloor(x, y, w, c) {
   fill(c);
   rect(x, y, w, 10);
+}
+
+function drawTrickyFloor(x, y, w) {
+  fill('lightblue');
+  rect(x, y, w, 4);
+}
+
+function drawBlock(x, y) {
+  fill("darkred");
+  rect(x, y, 30, 30);
 }
 
 function drawPlayer() {
@@ -174,4 +188,8 @@ function move(direction) {
   if (direction == "right") {
     playerVelocityX += playerAcceleration;
   }
+}
+
+function mouseClicked() {
+  console.log(`${mouseX}, ${mouseY}`)
 }
