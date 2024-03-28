@@ -5,7 +5,8 @@
 - Identify gameplay bugs
 
 ## Resources
-- Template: [`TODO`](https://editor.p5js.org/)
+- Template: [`Platformer`](https://editor.p5js.org/nlchung/sketches/QiAvKoa-2)
+- Padlet: [`Week 9`](https://padlet.com/nlchung/24-monarch-creative-coding-week-9-zcmq76rmgwj7odbm)
 
 ## Schedule
 - 5 minutes: what goes into a platforming game?
