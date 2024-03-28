@@ -52,8 +52,14 @@ bg_color = 'rgba(0,0,0,255)';
 bg_color_array = [0,0,0,255];
 function drawLevel() {
   background(bg_color);
-  rect(0,0,2,height);
-  rect(0,height-40,100,20);
+  
+  drawFloor(50,250,100, "grey");
+  drawFloor(150,200,100, "grey");
+}
+
+function drawFloor(x, y, w, c) {
+  fill(c);
+  rect(x, y, w, 10);
 }
 
 function drawPlayer() {
