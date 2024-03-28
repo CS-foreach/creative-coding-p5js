@@ -13,14 +13,14 @@ let playerAcceleration = 0.5;
 let playerTopSpeed = 10;
 
 // How high the player can jump
-let jumpForce = -13;
+let jumpForce = -playerHeight/2 + 1;
 
 // How fast the player is moving now
 let playerVelocityY = 0;
 let playerVelocityX = 0;
 
 // How fast the player falls
-let gravity = 1.2;
+let gravity = 0.8;
 
 // How slippery moving is
 let groundFriction = 0.8;
@@ -53,7 +53,7 @@ bg_color_array = [0,0,0,255];
 function drawLevel() {
   background(bg_color);
   rect(0,0,2,height);
-  rect(0,height-70,100,30);
+  rect(0,height-40,100,20);
 }
 
 function drawPlayer() {
