@@ -16,10 +16,15 @@
 - 10 minutes: Share!
 
 ## After Action Report
+- Attendance: 11-12 students
 - Students struggled to find/modify the level creation code
   Causes:
   - chonky template
   - incorrect assumptions made about helper functions
+  - lack of knowledge on what code changes correspond with different results
+    - likely not enough programming experience to experiment
+  - missed Korey's initial explanation and didn't want to raise their hands
   Fix:
   - Isolate level design code
   - More deliberate level design step explanation
+  - Slides that cover our explanations w/ visuals, so they can refer back to it
