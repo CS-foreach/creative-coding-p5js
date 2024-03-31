@@ -1,4 +1,4 @@
-// Where the player is now
+// Where the bottom-left of the player is
 let playerX;
 let playerY;
 
@@ -20,7 +20,7 @@ let playerVelocityY = 0;
 let playerVelocityX = 0;
 
 // How fast the player falls
-let gravity = 0.2;
+let gravity = 15;
 
 // How slippery moving is
 let groundFriction = 0.4;
@@ -30,10 +30,11 @@ function setup() {
 	createCanvas(400, 300);
 
 	if (debugMode) {
-		frameRate(15);
+		frameRate(20);
 	}
 
 	this.focus();
+	noStroke();
 	rectMode(CORNERS);
 	newGame();
 }
@@ -145,6 +146,27 @@ function keyPressed() {
 			newGame();
 		}
 	}
+
+	if (key == "p" && debugMode) {
+		drawBoundingBox();
+	}
+}
+
+function drawBoundingBox() {
+	if (isLooping()) {
+		push();
+		noLoop();
+	} else {
+		pop();
+		loop();
+		return;
+	}
+
+	let [x, y, w, h] = [playerX, playerY, playerWidth, playerHeight];
+
+	stroke("white");
+	noFill();
+	rect(x - 1, y + 1, x + w + 1, y - h - 1);
 }
 
 function drawDebugInfo() {
@@ -164,6 +186,7 @@ function drawDebugInfo() {
 	text(`Y: ${Y}${opY}${vY}`, 5, 10);
 	text(`X: ${X}${opX}${vX}`, 5, 20);
 	text(`airborn: ${airborn}`, 5, 30);
+	text(`collide: ${getCollisions(X, Y, playerWidth, playerHeight)}`, 5, 40);
 }
 
 function applyFriction() {
@@ -172,14 +195,15 @@ function applyFriction() {
 		0,
 		airborn ? airFriction : groundFriction
 	);
+
+	if (airborn) {
+		playerVelocityY += gravity;
+	}
 }
 
 let airborn;
 function applyPhysics() {
 	playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
-	playerVelocityY = airborn
-		? lerp(playerVelocityY, playerTopSpeed, gravity)
-		: 0;
 
 	applyFriction();
 	enforceCollisions();
@@ -195,12 +219,49 @@ function checkBoundaries() {
 	playerY = constrain(playerY, 0, height);
 }
 
-function enforceCollisions() {}
+function enforceCollisions() {
+	let collisions = getCollisions(playerX, playerY, playerWidth, playerHeight);
+	if (collisions.includes("bottom")) {
+		if (airborn) {
+			playerVelocityY = 0;
+			airborn = false;
+		}
+	} else {
+		airborn = true;
+	}
+
+	if (collisions.includes("left") || collisions.includes("right")) {
+		// playerVelocityX *= -0.5;
+	}
+}
+
+function getCollisions(x, y, w, h) {
+	const bounds = [
+		{ side: "left", arr: [x - 1, y, 1, h] },
+		{ side: "bottom", arr: [x, y + 1, w, 1] },
+		{ side: "top", arr: [x, y - h - 1, w, 1] },
+		{ side: "right", arr: [x + w + 1, y, 1, h] },
+	];
+
+	let collisions = [];
+	const bg_array = color(bg_color).levels.join(",");
+	for ({ side, arr } of bounds) {
+		let box = get(...arr);
+		box.loadPixels();
+		for (let i = 0; i < box.pixels.length; i += 4) {
+			if (box.pixels.slice(i, i + 4).join(",") != bg_array) {
+				collisions.push(side);
+				break;
+			}
+		}
+	}
+
+	return collisions;
+}
 
 function move(direction) {
 	if (direction == "up" && playerVelocityY == 0) {
 		playerVelocityY += jumpForce;
-		airborn = true;
 	}
 
 	if (direction == "left") {
