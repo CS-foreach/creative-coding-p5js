@@ -7,30 +7,30 @@ let playerHeight = 20;
 let playerWidth = 20;
 
 // How fast a player speeds up left or right
-let playerAcceleration = 2;
+let playerAcceleration = 1.5;
 
 // How fast a player can move
 let playerTopSpeed = 10;
 
 // How high the player can jump
-let jumpForce = -40;
+let jumpForce = -6;
 
 // How fast the player is moving now
 let playerVelocityY = 0;
 let playerVelocityX = 0;
 
 // How fast the player falls
-let gravity = 15;
+let gravity = 0.4;
 
 // How slippery moving is
-let groundFriction = 0.4;
-let airFriction = 0.06;
+let groundFriction = 0.3;
+let airFriction = 0.25;
 
 function setup() {
 	createCanvas(400, 300);
 
 	if (debugMode) {
-		frameRate(20);
+		frameRate(60);
 	}
 
 	this.focus();
@@ -40,6 +40,7 @@ function setup() {
 }
 
 let debugMode = true;
+let debugStep = false;
 function draw() {
 	checkInputs();
 	drawLevel();
@@ -60,21 +61,34 @@ function checkInputs() {
 	}
 }
 
+let boundColor = "white";
 let bg_color = "black";
 function drawLevel() {
 	background(bg_color);
+	drawBounds();
 
 	defaultLevel();
 
 	drawExit(levelExit_X, levelExit_Y, levelExit_Size);
 }
 
+function drawBounds() {
+	push();
+	noFill();
+	strokeWeight(2);
+	stroke(boundColor);
+	rect(0, 0, width, height);
+	pop();
+}
+
 function defaultLevel() {
+	push();
 	drawFloor(50, 250, 60, "grey");
 	drawFloor(150, 200, 30, "grey");
 
 	drawTrickyFloor(50, 170, 50);
 	drawTrickyFloor(137, 141, 50);
+	pop();
 }
 
 function drawFloor(x, y, w, c) {
@@ -93,8 +107,10 @@ function drawBlock(x, y) {
 }
 
 function drawPlayer() {
+	push();
 	fill("red");
 	rect(playerX, playerY, playerX + playerWidth, playerY - playerHeight);
+	pop();
 }
 
 //Where the level exit icon is
@@ -147,20 +163,32 @@ function keyPressed() {
 		}
 	}
 
-	if (key == "p" && debugMode) {
-		drawBoundingBox();
+	if (debugMode) {
+		if (key == "p") {
+			drawBoundingBox();
+		}
+
+		if (key == "`") {
+			debugStep = !debugStep;
+			toggleLoop();
+		}
+
+		if (key == "s" && debugStep) {
+			redraw();
+		}
 	}
 }
 
-function drawBoundingBox() {
-	if (isLooping()) {
-		push();
-		noLoop();
-	} else {
-		pop();
-		loop();
-		return;
+function toggleLoop(pushPop) {
+	if (pushPop) {
+		isLooping() ? push() : pop();
 	}
+
+	isLooping() ? noLoop() : loop();
+}
+
+function drawBoundingBox() {
+	toggleLoop(true);
 
 	let [x, y, w, h] = [playerX, playerY, playerWidth, playerHeight];
 
@@ -205,18 +233,14 @@ let airborn;
 function applyPhysics() {
 	playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
 
-	applyFriction();
 	enforceCollisions();
-
-	playerX += playerVelocityX;
-	playerY += playerVelocityY;
-
-	checkBoundaries();
+	applyFriction();
+	moveActors();
 }
 
-function checkBoundaries() {
-	playerX = constrain(playerX, 0, width - playerWidth);
-	playerY = constrain(playerY, 0, height);
+function moveActors() {
+	playerX += playerVelocityX;
+	playerY += playerVelocityY;
 }
 
 function enforceCollisions() {
