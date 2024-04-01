@@ -10,7 +10,8 @@ let playerWidth = 20;
 let playerAcceleration = 1.5;
 
 // How fast a player can move
-let playerTopSpeed = 10;
+let playerGroundTopSpeed = 6;
+let playerAirbornTopSpeed = 4;
 
 // How high the player can jump
 let jumpForce = -6;
@@ -23,8 +24,8 @@ let playerVelocityX = 0;
 let gravity = 0.4;
 
 // How slippery moving is
-let groundFriction = 0.3;
-let airFriction = 0.25;
+let groundFriction = 0.13;
+let airFriction = 1;
 
 function setup() {
 	createCanvas(400, 300);
@@ -35,6 +36,7 @@ function setup() {
 
 	this.focus();
 	noStroke();
+	noSmooth();
 	rectMode(CORNERS);
 	newGame();
 }
@@ -82,13 +84,11 @@ function drawBounds() {
 }
 
 function defaultLevel() {
-	push();
 	drawFloor(50, 250, 60, "grey");
 	drawFloor(150, 200, 30, "grey");
 
 	drawTrickyFloor(50, 170, 50);
 	drawTrickyFloor(137, 141, 50);
-	pop();
 }
 
 function drawFloor(x, y, w, c) {
@@ -109,7 +109,8 @@ function drawBlock(x, y) {
 function drawPlayer() {
 	push();
 	fill("red");
-	rect(playerX, playerY, playerX + playerWidth, playerY - playerHeight);
+	noStroke();
+	rect(playerX, playerY, playerX + playerWidth, playerY + playerHeight);
 	pop();
 }
 
@@ -118,7 +119,7 @@ let levelExit_X;
 let levelExit_Y;
 let levelExit_Size;
 function newGame() {
-	playerY = height;
+	playerY = height - 2 * playerHeight;
 	playerX = width / 2;
 	levelExit_X = 255;
 	levelExit_Y = 70;
@@ -164,10 +165,6 @@ function keyPressed() {
 	}
 
 	if (debugMode) {
-		if (key == "p") {
-			drawBoundingBox();
-		}
-
 		if (key == "`") {
 			debugStep = !debugStep;
 			toggleLoop();
@@ -179,70 +176,47 @@ function keyPressed() {
 	}
 }
 
-function toggleLoop(pushPop) {
-	if (pushPop) {
-		isLooping() ? push() : pop();
-	}
-
-	isLooping() ? noLoop() : loop();
-}
-
-function drawBoundingBox() {
-	toggleLoop(true);
-
-	let [x, y, w, h] = [playerX, playerY, playerWidth, playerHeight];
-
-	stroke("white");
-	noFill();
-	rect(x - 1, y + 1, x + w + 1, y - h - 1);
-}
-
-function drawDebugInfo() {
-	fill("white");
-	textSize(10);
-	noStroke();
-	textAlign(LEFT);
-
-	let [opX, opY] = [playerVelocityX, playerVelocityY].map((value) =>
-		value < 0 ? " - " : " + "
-	);
-
-	let [X, Y, vY, vX] = [playerX, playerY, playerVelocityY, playerVelocityX].map(
-		(value) => abs(value).toFixed(2)
-	);
-
-	text(`Y: ${Y}${opY}${vY}`, 5, 10);
-	text(`X: ${X}${opX}${vX}`, 5, 20);
-	text(`airborn: ${airborn}`, 5, 30);
-	text(`collide: ${getCollisions(X, Y, playerWidth, playerHeight)}`, 5, 40);
-}
-
 function applyFriction() {
-	playerVelocityX = lerp(
-		playerVelocityX,
-		0,
-		airborn ? airFriction : groundFriction
-	);
-
 	if (airborn) {
 		playerVelocityY += gravity;
+		if (abs(playerVelocityX) > playerAirbornTopSpeed) {
+			let vxSign = playerVelocityX < 0 ? -1 : 1;
+			playerVelocityX = lerp(
+				playerVelocityX,
+				vxSign * playerAirbornTopSpeed,
+				airFriction
+			);
+		} else {
+			playerVelocityX = constrain(
+				playerVelocityX,
+				-playerAirbornTopSpeed,
+				playerAirbornTopSpeed
+			);
+		}
+	} else {
+		playerVelocityX = lerp(playerVelocityX, 0, groundFriction);
+		playerVelocityX = constrain(
+			playerVelocityX,
+			-playerGroundTopSpeed,
+			playerGroundTopSpeed
+		);
 	}
 }
 
-let airborn;
 function applyPhysics() {
-	playerVelocityX = constrain(playerVelocityX, -playerTopSpeed, playerTopSpeed);
-
-	enforceCollisions();
 	applyFriction();
 	moveActors();
+	enforceCollisions();
 }
 
 function moveActors() {
 	playerX += playerVelocityX;
 	playerY += playerVelocityY;
+
+	[playerX, playerY] = [playerX, playerY].map((v) => round(v));
 }
 
+let airborn;
 function enforceCollisions() {
 	let collisions = getCollisions(playerX, playerY, playerWidth, playerHeight);
 	if (collisions.includes("bottom")) {
@@ -254,17 +228,17 @@ function enforceCollisions() {
 		airborn = true;
 	}
 
-	if (collisions.includes("left") || collisions.includes("right")) {
-		// playerVelocityX *= -0.5;
+	if (collisions.includes("top")) {
+		playerVelocityY = 8;
 	}
 }
 
 function getCollisions(x, y, w, h) {
 	const bounds = [
 		{ side: "left", arr: [x - 1, y, 1, h] },
-		{ side: "bottom", arr: [x, y + 1, w, 1] },
-		{ side: "top", arr: [x, y - h - 1, w, 1] },
+		{ side: "top", arr: [x, y - 1, w, 1] },
 		{ side: "right", arr: [x + w + 1, y, 1, h] },
+		{ side: "bottom", arr: [x, y + h + 1, w, 1] },
 	];
 
 	let collisions = [];
@@ -273,7 +247,11 @@ function getCollisions(x, y, w, h) {
 		let box = get(...arr);
 		box.loadPixels();
 		for (let i = 0; i < box.pixels.length; i += 4) {
-			if (box.pixels.slice(i, i + 4).join(",") != bg_array) {
+			let pixel = box.pixels.slice(i, i + 4).join(",");
+			if (pixel != bg_array) {
+				if (debugStep) {
+					console.log(`${side} ${i} : ${pixel}`);
+				}
 				collisions.push(side);
 				break;
 			}
@@ -297,5 +275,37 @@ function move(direction) {
 }
 
 function mouseClicked() {
-	console.log(`${mouseX}, ${mouseY}`);
+	console.log(`${get(mouseX, mouseY)}`);
+}
+
+function toggleLoop(pushPop) {
+	if (pushPop) {
+		isLooping() ? push() : pop();
+	}
+
+	isLooping() ? noLoop() : loop();
+}
+
+function drawDebugInfo() {
+	fill("white");
+	textSize(10);
+	noStroke();
+	textAlign(LEFT);
+
+	let [opX, opY] = [playerVelocityX, playerVelocityY].map((value) =>
+		value < 0 ? " - " : " + "
+	);
+
+	let [X, Y, vY, vX] = [playerX, playerY, playerVelocityY, playerVelocityX].map(
+		(value) => abs(value).toFixed(2)
+	);
+
+	text(`Y: ${Y}${opY}${vY}`, 5, 10);
+	text(`X: ${X}${opX}${vX}`, 5, 20);
+	text(`airborn: ${airborn}`, 5, 30);
+	text(
+		`collide: ${getCollisions(playerX, playerY, playerWidth, playerHeight)}`,
+		5,
+		40
+	);
 }
